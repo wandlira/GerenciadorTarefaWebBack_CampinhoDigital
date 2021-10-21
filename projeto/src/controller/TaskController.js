@@ -11,7 +11,7 @@ class TaskController{
         await task
         .save() 
         .then(response => {return res.status(200).json(response)})
-        .catch(erro => {return res.status(500).json(erro)});
+        .catch(error => {return res.status(500).json(error)});
 
 
         //save() MÉTODO UTILIZADO PARA SALVAR OS DADOS QUE VEM DO FRONT E BANCO DE DADOS

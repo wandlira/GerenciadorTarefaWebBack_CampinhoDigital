@@ -8,7 +8,7 @@ const {
         startOfWeek,
         endOfWeek,
         startOfMonth,
-        endOdMonth,
+        endOfMonth,
         startOfYear,
         endOfYear
         } = require('date-fns');
@@ -49,7 +49,7 @@ class TaskController{
     async readAll(req, res){
 
     
-        await TaskModel.find({macadress: {'$in': req.body.macadress}})
+        await TaskModel.find({macadress: {'$in': req.params.macadress}})
         .sort('when')
         .then(response => {return res.status(200).json(response)})
         .catch(error => {return res.status(500).json(error)});
@@ -90,8 +90,9 @@ class TaskController{
 
     //MÉTODO RESPONSÁVEL POR VERIFICAR SE A TAREFA ESTÁ ATRASADA
     //LT = LESS... THAN
-    async late (req, res){
-        await TaskModel.find({'when':{'$lt': now}, 'macadress': {'$in': req.body.macadress} })
+    async late(req, res){
+        await TaskModel
+        .find({'when':{'$lt': now}, 'macadress': {'$in': req.params.macadress} })
         .sort('when')
         .then(response => {return res.status(200).json(response)})
         .catch(error => {return res.status(500).json(error)});
@@ -100,7 +101,7 @@ class TaskController{
 
     //FILTROS  (HOJE)
     async today(req, res){
-        await TaskModel.find({'macadress': {'$in': req.body.macadress}, 'when':{'$gte': startOfDay(now), '$lt': endOfDay(now)} })
+        await TaskModel.find({'macadress': {'$in': req.params.macadress}, 'when':{'$gte': startOfDay(now), '$lt': endOfDay(now)} })
         .sort('when')
         .then(response => {return res.status(200).json(response)})
         .catch(error => {return res.status(500).json(error)});
@@ -109,7 +110,7 @@ class TaskController{
 
     //FILTROS  (SEMANA)
     async week(req, res){
-        await TaskModel.find({'macadress': {'$in': req.body.macadress}, 'when':{'$gte': startOfWeek(now), '$lt': endOfWeek(now)} })
+        await TaskModel.find({'macadress': {'$in': req.params.macadress}, 'when':{'$gte': startOfWeek(now), '$lt': endOfWeek(now)} })
         .sort('when')
         .then(response => {return res.status(200).json(response)})
         .catch(error => {return res.status(500).json(error)});
@@ -118,7 +119,7 @@ class TaskController{
 
     //FILTROS  (MÊS)
     async month(req, res){
-        await TaskModel.find({'macadress': {'$in': req.body.macadress}, 'when':{'$gte': startOfMonth(now), '$lt': endOfMonth(now)} })
+        await TaskModel.find({'macadress': {'$in': req.params.macadress}, 'when':{'$gte': startOfMonth(now), '$lt': endOfMonth(now)} })
         .sort('when')
         .then(response => {return res.status(200).json(response)})
         .catch(error => {return res.status(500).json(error)});
@@ -127,7 +128,7 @@ class TaskController{
 
      //FILTROS  (ANO)
      async year(req, res){
-        await TaskModel.find({'macadress': {'$in': req.body.macadress}, 'when':{'$gte': startOfYear(now), '$lt': endOfYear(now)} })
+        await TaskModel.find({'macadress': {'$in': req.params.macadress}, 'when':{'$gte': startOfYear(now), '$lt': endOfYear(now)} })
         .sort('when')
         .then(response => {return res.status(200).json(response)})
         .catch(error => {return res.status(500).json(error)});
